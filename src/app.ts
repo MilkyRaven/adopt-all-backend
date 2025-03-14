@@ -1,10 +1,7 @@
-import express, { Request, Response } from "express";
-
+import express from "express";
+import { router } from "./infraestructure/routes/index";
 const app = express();
 
-app.use((req: Request, res: Response) => {
-  console.log(`Received ${req.method} request to ${req.path}`);
-  res.send(200);
-});
+app.use("/animals", router);
 
 export default app;
