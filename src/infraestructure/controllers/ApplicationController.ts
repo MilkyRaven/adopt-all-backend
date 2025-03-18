@@ -24,15 +24,19 @@ export class ApplicationController {
   create = async (req: Request, res: Response) => {
     const applicationData = req.body;
     const createApplication = new CreateApplication(this.repository);
-    await createApplication.execute(applicationData);
-    res.sendStatus(201);
+    const applicationId = await createApplication.execute(applicationData);
+    res.status(201).send(applicationId);
   };
   update = async (req: Request, res: Response) => {
-    const { applicationId } = req.params;
-    const applicationData = req.body;
-    const updateApplication = new UpdateApplication(this.repository);
-    await updateApplication.execute(applicationId, applicationData);
-    res.sendStatus(200);
+    try {
+      const { applicationId } = req.params;
+      const applicationData = req.body;
+      const updateApplication = new UpdateApplication(this.repository);
+      await updateApplication.execute(applicationId, applicationData);
+      res.sendStatus(200);
+    } catch (error) {
+      res.sendStatus(500);
+    }
   };
   delete = async (req: Request, res: Response) => {
     const { applicationId } = req.params;

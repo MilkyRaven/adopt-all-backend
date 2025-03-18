@@ -12,31 +12,45 @@ export class ApplicationRepositoryFirestore implements ApplicationRepository {
       const data = doc.data();
       return new Application(
         doc.id,
-        data.createdAt,
         data.animalId,
         data.userId,
-        data.hasYard,
-        data.hasHadPetsBefore,
-        data.comments
+        data.fullName,
+        data.email,
+        data.comments,
+        data.createdAt
       );
     });
   }
   async create(application: Application): Promise<string> {
-    const docRef = await db.collection("applications").add({
+    // Generate a new document ID
+    const docRef = db.collection("applications").doc();
+    const id = docRef.id;
+
+    // Create the document with the ID included in the data
+    await docRef.set({
+      id: id,
       createdAt: application.createdAt,
       animalId: application.animalId,
+      fullName: application.fullName,
+      email: application.email,
       userId: application.userId,
-      hasYard: application.hasYard,
-      hasHadPetsBefore: application.hasHadPetsBefore,
       comments: application.comments,
     });
-    return docRef.id;
+
+    return id;
   }
   async update(
     applicationId: string,
     updatedData: Partial<Application>
   ): Promise<void> {
-    await db.collection("applications").doc(applicationId).update(updatedData);
+    try {
+      await db
+        .collection("applications")
+        .doc(applicationId)
+        .update(updatedData);
+    } catch (error) {
+      console.log(error);
+    }
   }
   async delete(applicationId: string): Promise<void> {
     await db.collection("applications").doc(applicationId).delete();
