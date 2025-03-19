@@ -4,6 +4,7 @@
   "main": "index.ts",
   "type": "module",
   "scripts": {
+    "start": "tsc index.ts",
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "ts-node --esm index.ts",
     "dev:test": "NODE_ENV=test ts-node index.ts"
