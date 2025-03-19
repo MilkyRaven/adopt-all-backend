@@ -1,13 +1,13 @@
 {
   "name": "adopt-all-backend",
   "version": "1.0.0",
-  "main": "index.ts",
-  "type": "module",
+  "main": "src/index.ts",
   "scripts": {
-    "start": "tsc index.ts",
+    "build": "npx tsc",
+    "start": "tsc && node dist/index.js",
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "ts-node --esm index.ts",
-    "dev:test": "NODE_ENV=test ts-node index.ts"
+    "dev": "ts-node src/index.ts",
+    "dev:test": "NODE_ENV=test ts-node src/index.ts"
   },
   "author": "Milky",
   "license": "ISC",
